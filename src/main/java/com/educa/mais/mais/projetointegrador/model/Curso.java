@@ -18,9 +18,7 @@ public class Curso {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
-	private String categoria;
-	private String professor;
-	private int vagasDisponiveis;
+	private int vagas;
 	private String duracao;
 	private Double preco;
 	
@@ -48,28 +46,12 @@ public class Curso {
 		this.titulo = titulo;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public int getVagas() {
+		return vagas;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
-	public String getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(String professor) {
-		this.professor = professor;
-	}
-
-	public int getVagasDisponiveis() {
-		return vagasDisponiveis;
-	}
-
-	public void setVagasDisponiveis(int vagasDisponiveis) {
-		this.vagasDisponiveis = vagasDisponiveis;
+	public void setVagas(int vagas) {
+		this.vagas = vagas;
 	}
 
 	public String getDuracao() {

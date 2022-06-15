@@ -32,7 +32,7 @@ public class Usuario {
 	private String senha;
 	private String pronome;
 	private String foto;
-	private String celular;
+	private String telefone;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
@@ -86,12 +86,12 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public String getCelular() {
-		return celular;
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void setCelular(String celular) {
-		this.celular = celular;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public List<Curso> getCurso() {

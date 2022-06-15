@@ -77,7 +77,7 @@ public class UsuarioController {
 												.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
-	@PutMapping 
+	@PutMapping("/editar")
 	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 	}

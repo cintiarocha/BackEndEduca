@@ -52,11 +52,6 @@ public class CursoController {
 	public ResponseEntity<List<Curso>> getByNome(@PathVariable String titulo) {
 		return ResponseEntity.ok(cursoRepository.findByTituloContainingIgnoreCase(titulo));
 	}
-	
-	@GetMapping("/categoria/{categoria}")
-	public ResponseEntity<List<Curso>> getBycategoria(@PathVariable String categoria) {
-		return ResponseEntity.ok(cursoRepository.findByCategoriaContainingIgnoreCase(categoria));
-	}
 
 	@GetMapping("/usuario/{email}")
 	public ResponseEntity<List<Usuario>> getByUsuario(@PathVariable Curso curso) {
