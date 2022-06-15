@@ -23,8 +23,6 @@ import com.educa.mais.mais.projetointegrador.model.Usuario;
 import com.educa.mais.mais.projetointegrador.repository.CursoRepository;
 import com.educa.mais.mais.projetointegrador.repository.ParceiroRepository;
 import com.educa.mais.mais.projetointegrador.repository.UsuarioRepository;
-import com.educa.mais.mais.projetointegrador.service.ParceiroService;
-import com.educa.mais.mais.projetointegrador.service.UsuarioService;
 
 @RestController
 @RequestMapping ("/curso")
@@ -37,15 +35,11 @@ public class CursoController {
 	private UsuarioRepository usuarioRepository;
 	@Autowired	
 	private ParceiroRepository parceiroRepository;
-	@Autowired
-	private UsuarioService usuarioService;
-	@Autowired
-	private ParceiroService parceiroService;
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Curso> getById(@PathVariable long id) {
 		return cursoRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
-									  .orElse(ResponseEntity.notFound().build());
+									       .orElse(ResponseEntity.notFound().build());
 	}
 	
 	@GetMapping("/titulo/{titulo}")
@@ -73,19 +67,8 @@ public class CursoController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(cursoRepository.save(curso));
 	}
 	
-	@PutMapping("/alterar")
+	@PutMapping("/editar")
 	public ResponseEntity<Curso> put(@Valid @RequestBody Curso curso) {
-		return ResponseEntity.status(HttpStatus.OK).body(cursoRepository.save(curso));
-	}
-	
-	@PutMapping("/adicionarAluno")
-	public ResponseEntity<Usuario> adicionarAluno(@PathVariable Curso curso, @PathVariable Usuario usuario) {
-		return usuarioService.matricular(usuario, curso).map(resposta -> ResponseEntity.ok(resposta))
-														.orElse(ResponseEntity.notFound().build());
-	}
-	
-	@PutMapping("/adicionarEmpresa")
-	public ResponseEntity<Curso> adicionarEmpresa(@PathVariable Curso curso, @PathVariable Parceiro parceiro) {
 		return ResponseEntity.status(HttpStatus.OK).body(cursoRepository.save(curso));
 	}
 	

@@ -66,24 +66,24 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/logar")
-	public ResponseEntity<UsuarioLogin> login(@RequestBody Optional<UsuarioLogin> user) {
-		return service.autenticarUsuario(user).map(resposta -> ResponseEntity.ok(resposta))
-											  .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	public ResponseEntity<UsuarioLogin> entrar(@RequestBody Optional<UsuarioLogin> user) {
+		return service.autenticar(user).map(resposta -> ResponseEntity.ok(resposta))
+									   .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario) {
-		return service.cadastrarUsuario(usuario).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-												.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
+		return service.cadastrar(usuario).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+										 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
 	@PutMapping("/editar")
-	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> editar(@Valid @RequestBody Usuario usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete (@PathVariable long id) {
+	public void delete(@PathVariable long id) {
 		usuarioRepository.deleteById(id);
 	}
 }

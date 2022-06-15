@@ -70,14 +70,20 @@ public class ParceiroController {
 	
 	@PostMapping("/logar")
 	public ResponseEntity<ParceiroLogin> login(@RequestBody Optional<ParceiroLogin> parceiro) {
-		return service.autenticarParceiro(parceiro).map(resposta -> ResponseEntity.ok(resposta))
+		return service.autenticar(parceiro).map(resposta -> ResponseEntity.ok(resposta))
 											  .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Parceiro> post(@Valid @RequestBody Parceiro parceiro) {
-		return service.cadastrarParceiro(parceiro).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+		return service.cadastrar(parceiro).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
 												.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+	}
+	
+	@PostMapping("/comprar")
+	public ResponseEntity<Parceiro> post(@Valid @RequestBody Parceiro parceiro, Curso curso) {
+		return service.comprar(parceiro, curso).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+											   .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
 	@PutMapping

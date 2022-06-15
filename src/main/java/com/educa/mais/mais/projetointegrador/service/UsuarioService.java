@@ -2,13 +2,10 @@ package com.educa.mais.mais.projetointegrador.service;
 
 import java.nio.charset.Charset;
 import java.util.Optional;
-
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.educa.mais.mais.projetointegrador.model.Curso;
 import com.educa.mais.mais.projetointegrador.model.Usuario;
 import com.educa.mais.mais.projetointegrador.model.UsuarioLogin;
 import com.educa.mais.mais.projetointegrador.repository.UsuarioRepository;
@@ -19,17 +16,15 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public Optional<Usuario> cadastrarUsuario(Usuario usuario){
-		
+	public Optional<Usuario> cadastrar(Usuario usuario){
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
 			return Optional.empty();
 		}
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			return Optional.of(usuarioRepository.save(usuario));	
+		return Optional.of(usuarioRepository.save(usuario));
 	}
 	
-	public Optional<Usuario> atualizarUsuario(Usuario usuario){
-
+	public Optional<Usuario> atualizar(Usuario usuario){
 		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 			return Optional.of(usuarioRepository.save(usuario));
@@ -37,25 +32,16 @@ public class UsuarioService {
 		return Optional.empty();
 	}
 	
-	public Optional<Usuario> matricular(Usuario usuario, Curso curso) {
-		usuario.getCurso().add(curso);
-		return Optional.of(usuarioRepository.save(usuario));
-	}
-	
-
-
 	public String criptografarSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
 		return encoder.encode(senha);
 	}
 	
-	public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLogin> usuarioLogin) {
+	public Optional<UsuarioLogin> autenticar(Optional<UsuarioLogin> usuarioLogin) {
 		Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
 	
 		if (usuario.isPresent()) {
 			if (compararSenhas(usuarioLogin.get().getSenha(), usuario.get().getSenha())) {
-				
 				usuarioLogin.get().setId(usuario.get().getId());
 				usuarioLogin.get().setNome(usuario.get().getNome());
 				usuarioLogin.get().setFoto(usuario.get().getFoto());
@@ -75,7 +61,6 @@ public class UsuarioService {
 	}
 	
 	private String gerarBasicToken(String usuario, String senha) {
-
 		String token = usuario + ":" + senha;
 		byte[] tokenBase64 = Base64.encodeBase64(token.getBytes(Charset.forName("US-ASCII")));
 		return "Basic " + new String(tokenBase64);

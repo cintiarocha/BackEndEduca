@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.educa.mais.mais.projetointegrador.model.Curso;
 import com.educa.mais.mais.projetointegrador.model.Parceiro;
 import com.educa.mais.mais.projetointegrador.model.ParceiroLogin;
 import com.educa.mais.mais.projetointegrador.repository.ParceiroRepository;
@@ -18,7 +19,7 @@ public class ParceiroService {
 	@Autowired
 	private ParceiroRepository repository;
 	
-	public Optional<Parceiro> cadastrarParceiro(Parceiro parceiro){
+	public Optional<Parceiro> cadastrar(Parceiro parceiro){
 		
 		if (repository.findByEmail(parceiro.getEmail()).isPresent())
 			return Optional.empty();
@@ -27,7 +28,7 @@ public class ParceiroService {
 		return Optional.of(repository.save(parceiro));	
 	}
 	
-	public Optional<Parceiro> atualizarParceiro(Parceiro parceiro){
+	public Optional<Parceiro> atualizar(Parceiro parceiro){
 		
 		if (repository.findById(parceiro.getId()).isPresent()) {
 			parceiro.setSenha(criptografarSenha(parceiro.getSenha()));
@@ -36,13 +37,18 @@ public class ParceiroService {
 		return Optional.empty();
 	}
 	
+	public Optional<Parceiro> comprar(Parceiro parceiro, Curso curso) {
+		parceiro.getCurso().add(curso);
+		return Optional.of(repository.save(parceiro));
+	} 
+	
 	public String criptografarSenha(String senha) {
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder.encode(senha);
 	}
 	
-	public Optional<ParceiroLogin> autenticarParceiro(Optional<ParceiroLogin> parceiroLogin) {
+	public Optional<ParceiroLogin> autenticar(Optional<ParceiroLogin> parceiroLogin) {
 		Optional<Parceiro> parceiro = repository.findByEmail(parceiroLogin.get().getEmail());
 	
 		if (parceiro.isPresent()) {
