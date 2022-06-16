@@ -2,9 +2,7 @@ package com.educa.mais.mais.projetointegrador.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.educa.mais.mais.projetointegrador.model.Curso;
 import com.educa.mais.mais.projetointegrador.model.Usuario;
 import com.educa.mais.mais.projetointegrador.model.UsuarioLogin;
@@ -54,7 +51,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findByNomeContainingIgnoreCase(nome));
 	}
 	
-	@GetMapping("/curso/{email}")
+	@GetMapping("/cursos/{email}")
 	public ResponseEntity<List<Curso>> getByCurso(@PathVariable String usuario) {
 		Long id = usuarioRepository.findByUsuario(usuario).get().getId();
 		return ResponseEntity.ok(cursoRepository.findAllById(id));
@@ -77,8 +74,8 @@ public class UsuarioController {
 										 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
-	@PutMapping("/editar")
-	public ResponseEntity<Usuario> editar(@Valid @RequestBody Usuario usuario) {
+	@PutMapping("/atualizar")
+	public ResponseEntity<Usuario> atualizar(@Valid @RequestBody Usuario usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 	}
 	

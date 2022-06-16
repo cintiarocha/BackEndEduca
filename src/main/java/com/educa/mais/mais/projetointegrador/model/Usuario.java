@@ -24,15 +24,17 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String pronome;
+	private String foto;
+	private String telefone;
 	
 	@Schema(example = "email@email.com")
 	@Email
 	@NotNull
 	private String usuario;
+	
+	@NotNull
 	private String senha;
-	private String pronome;
-	private String foto;
-	private String telefone;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")

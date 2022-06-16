@@ -2,13 +2,10 @@ package com.educa.mais.mais.projetointegrador.service;
 
 import java.nio.charset.Charset;
 import java.util.Optional;
-
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.educa.mais.mais.projetointegrador.model.Curso;
 import com.educa.mais.mais.projetointegrador.model.Parceiro;
 import com.educa.mais.mais.projetointegrador.model.ParceiroLogin;
 import com.educa.mais.mais.projetointegrador.repository.ParceiroRepository;
@@ -36,11 +33,6 @@ public class ParceiroService {
 		}
 		return Optional.empty();
 	}
-	
-	public Optional<Parceiro> comprar(Parceiro parceiro, Curso curso) {
-		parceiro.getCurso().add(curso);
-		return Optional.of(repository.save(parceiro));
-	} 
 	
 	public String criptografarSenha(String senha) {
 		

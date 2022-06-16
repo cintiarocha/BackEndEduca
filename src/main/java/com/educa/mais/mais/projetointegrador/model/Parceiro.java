@@ -9,8 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "tb_parceiros" )
@@ -22,8 +26,14 @@ public class Parceiro {
 	private String nome;
 	private String foto;
 	private String cnpj;
-	private String email;
 	private String telefone;
+	
+	@Schema(example = "email@email.com")
+	@Email
+	@NotNull
+	private String email;
+	
+	@NotNull
 	private String senha;
 	
 	@OneToMany(mappedBy = "parceiro", cascade = CascadeType.REMOVE)

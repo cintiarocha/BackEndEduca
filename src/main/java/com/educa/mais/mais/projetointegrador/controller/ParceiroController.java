@@ -47,18 +47,18 @@ public class ParceiroController {
 													.orElse(ResponseEntity.notFound().build());
 	}
 	
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<List<Parceiro>> getByNome(@PathVariable String nome) {
+		return ResponseEntity.ok(parceiroRepository.findByNomeContainingIgnoreCase(nome));
+	}
+	
 	@GetMapping("/cnpj/{cnpj}")
 	public ResponseEntity<Parceiro> getByCnpj(@PathVariable String Cnpj) {
 		return parceiroRepository.findByCnpj(Cnpj).map(resposta -> ResponseEntity.ok(resposta))
 												  .orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Parceiro>> getByNome(@PathVariable String nome) {
-		return ResponseEntity.ok(parceiroRepository.findByNomeContainingIgnoreCase(nome));
-	}
-	
-	@GetMapping("/curso/{parceiro}")
+	@GetMapping("/cursos/{parceiro}")
 	public ResponseEntity<List<Curso>> getByCurso(@PathVariable String emailDoParceiro) {
 		return ResponseEntity.ok(cursoRepository.findByParceiro(emailDoParceiro));
 	}
@@ -69,25 +69,19 @@ public class ParceiroController {
 	}
 	
 	@PostMapping("/logar")
-	public ResponseEntity<ParceiroLogin> login(@RequestBody Optional<ParceiroLogin> parceiro) {
+	public ResponseEntity<ParceiroLogin> logar(@RequestBody Optional<ParceiroLogin> parceiro) {
 		return service.autenticar(parceiro).map(resposta -> ResponseEntity.ok(resposta))
-											  .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+										   .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Parceiro> post(@Valid @RequestBody Parceiro parceiro) {
+	public ResponseEntity<Parceiro> cadastrar(@Valid @RequestBody Parceiro parceiro) {
 		return service.cadastrar(parceiro).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
 												.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
 	
-	@PostMapping("/comprar")
-	public ResponseEntity<Parceiro> post(@Valid @RequestBody Parceiro parceiro, Curso curso) {
-		return service.comprar(parceiro, curso).map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-											   .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-	}
-	
-	@PutMapping
-	public ResponseEntity<Parceiro> put(@Valid @RequestBody Parceiro parceiro) {
+	@PutMapping("/atualizar")
+	public ResponseEntity<Parceiro> atualizar(@Valid @RequestBody Parceiro parceiro) {
 		return ResponseEntity.status(HttpStatus.OK).body(parceiroRepository.save(parceiro));
 	}
 	
